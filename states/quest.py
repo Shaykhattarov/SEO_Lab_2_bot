@@ -1,5 +1,6 @@
 import json
 from config import filename, subjects_names
+from aiogram.dispatcher.filters.state import StatesGroup, State
 
 
 class Quest(object):
@@ -15,14 +16,20 @@ class Quest(object):
         self.true_answer = true_answer
 
 
-def __read_file():
+class QuestData(StatesGroup):
+    subject = State()
+    answers = State()
+    user_choice = State()
+    counter = State()
+
+
+def read_file():
     with open(filename, 'r', encoding='utf-8') as file:
         data = json.loads(file.read())
     return data
 
 
-def get_subjects_with_quests():
-    data = __read_file()
+def get_subjects_with_quests(data):
     subjects = dict()
     for subject in subjects_names:
         subjects[subject] = []
